@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "skipLibCheck": true,
+
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "paths": {
+      "@woocommerce/*": ["*"]
+    }
+  },
+  "include": ["./src/**/*.d.ts"],
+  "exclude": ["./node_modules"]
+}

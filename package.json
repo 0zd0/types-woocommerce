@@ -1,0 +1,31 @@
+{
+  "name": "types-woocommerce",
+  "version": "1.0.1",
+  "main": "src/index.d.ts",
+  "type": "module",
+  "homepage": "https://github.com/0zd0/types-woocommerce#readme",
+  "bugs": {
+    "url": "https://github.com/0zd0/types-woocommerce/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0zd0/types-woocommerce.git"
+  },
+  "author": "Pavl",
+  "license": "MIT",
+  "keywords": [
+    "woocommerce",
+    "types"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "bun run build"
+  }
+}
