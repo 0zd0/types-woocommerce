@@ -4,8 +4,9 @@ declare module '@woocommerce/settings' {
      */
     import type { AllHTMLAttributes, AriaAttributes } from 'react';
     import {CurrencyCode, SymbolPosition} from "@woocommerce/types";
+    import {CompareOperator} from "compare-versions";
 
-// A list of attributes that can be added to a custom field when registering it.
+    // A list of attributes that can be added to a custom field when registering it.
     type CustomFieldAttributes = Pick<
         AllHTMLAttributes< HTMLInputElement >,
         | 'maxLength'
@@ -153,6 +154,56 @@ declare module '@woocommerce/settings' {
         wpLoginUrl: string;
         wpVersion: string;
     }
+
+    /**
+     * Returns a string with the site's wp-admin URL appended. JS version of `admin_url`.
+     *
+     * @param {string} path Relative path.
+     * @return {string} Full admin URL.
+     */
+    export function getAdminLink( path: string ): string;
+
+    /**
+     * Retrieves a setting value from the setting state.
+     *
+     * If a setting with key `settingName` does not exist or is undefined,
+     * the `defaultValue` will be returned instead. An optional `resolveValue`
+     * callback can be passed to format the returned value.
+     *
+     * @param settingName - The name of the setting to retrieve.
+     * @param defaultValue - The value to return if the setting is not found.
+     * @param resolveValue - A function to format the returned value.
+     * @returns The setting value or the default value.
+     */
+    export function getSetting<T>(
+        settingName: string,
+        defaultValue?: unknown,
+        resolveValue?: (value: unknown, defaultValue: unknown) => unknown
+    ): T;
+
+    /**
+     * Compare the current WC version with the provided `version` param using the
+     * `operator`.
+     *
+     * For example `isWcVersion( '4.9.0', '<=' )` returns true if the site WC version
+     * is smaller or equal than `4.9`.
+     */
+    export function isWcVersion(
+        version: string,
+        operator?: CompareOperator
+    ): boolean;
+
+    /**
+     * Compare the current WP version with the provided `version` param using the
+     * `operator`.
+     *
+     * For example `isWpVersion( '5.6', '<=' )` returns true if the site WP version
+     * is smaller or equal than `5.6` .
+     */
+    export function isWpVersion(
+        version: string,
+        operator: CompareOperator
+    ): boolean;
 }
 
 
