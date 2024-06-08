@@ -1,3 +1,6 @@
 declare module '@woocommerce/blocks-registry' {
-    export function registerPaymentMethod(): void;
+    import {CorePaymentMethodConfiguration, ExpressPaymentMethodConfiguration} from "@woocommerce/types";
+
+    export function registerExpressPaymentMethod(options: ExpressPaymentMethodConfiguration): void;
+    export function registerPaymentMethod(options: CorePaymentMethodConfiguration): void;
 }
