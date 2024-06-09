@@ -16,25 +16,60 @@ bun install types-woocommerce -D
 ## Usage example
 ```tsx
 import { registerPaymentMethod } from '@woocommerce/blocks-registry'
-import type { CanMakePaymentReturnType } from '@woocommerce/types'
+import { getSetting } from '@woocommerce/settings'
+import type {
+    PaymentMethodBaseProps,
+    PaymentMethodConfiguration,
+    PaymentMethodProps,
+} from '@woocommerce/types/payments'
+import { decodeEntities } from '@wordpress/html-entities'
+import * as React from 'react'
 
-const create = {
-    ariaLabel: '',
-    canMakePayment(): CanMakePaymentReturnType {
-        return true
-    },
-    content: <div>A react node</div>,
-    edit: <div>A React node</div>,
-    label: <div>A React node</div>,
-    name: 'gatewayId',
-    supports: {
-        features: ['products'],
-    },
+type Settings = {
+    title: string
+    description: string
+    supports: string[]
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    registerPaymentMethod(create)
+document.addEventListener('DOMContentLoaded', function() {
+    if (!window.wc || !window.wc.wcBlocksRegistry || !window.wc.wcSettings)
+        return
+    const PAYMENT_METHOD_NAME = window.TOKENPAY_SETTINGS.gatewayId
+    const settings = getSetting<Partial<Settings>>(
+        `${PAYMENT_METHOD_NAME}_data`,
+        {},
+    )
+    const title = decodeEntities(settings.title ?? '')
+    const description = decodeEntities(settings.description ?? '')
+
+    const Label: React.FC<PaymentMethodBaseProps> = ({ components }) => {
+        const { PaymentMethodLabel } = components
+        return (
+            <PaymentMethodLabel
+                icon={''}
+                text={title}
+            />
+        )
+    }
+
+    const Content: React.FC<PaymentMethodProps> = () => {
+        return <div>{description}</div>
+    }
+
+    const paymentMethod: PaymentMethodConfiguration = {
+        ariaLabel: title,
+        canMakePayment: () => true,
+        content: React.createElement(Content),
+        edit: React.createElement(Content),
+        label: React.createElement(Label),
+        name: PAYMENT_METHOD_NAME,
+        supports: {
+            features: settings.supports,
+        },
+    }
+    registerPaymentMethod(paymentMethod)
 })
+
 ```
 
 ## Vite

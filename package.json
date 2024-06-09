@@ -1,8 +1,9 @@
 {
   "name": "types-woocommerce",
-  "version": "1.0.15",
+  "version": "1.0.20",
   "main": "",
   "types": "src/index.d.ts",
+  "type": "module",
   "homepage": "https://github.com/0zd0/types-woocommerce#readme",
   "bugs": {
     "url": "https://github.com/0zd0/types-woocommerce/issues"
@@ -19,8 +20,14 @@
   ],
   "devDependencies": {
     "@types/bun": "latest",
-    "typescript": "^5.0.0",
-    "@types/react": "^18.3.3"
+    "@types/react": "^18.3.3",
+    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "@typescript-eslint/parser": "^7.12.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.3.1",
+    "typescript": "^5.0.0"
   },
   "peerDependencies": {
     "react": "^17.0.0",
@@ -31,6 +38,7 @@
     "src"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint 'src/**/*.{ts,tsx}'"
   }
 }

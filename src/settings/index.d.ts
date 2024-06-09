@@ -2,13 +2,16 @@ declare module '@woocommerce/settings' {
     /**
      * External dependencies
      */
-    import type { AllHTMLAttributes, AriaAttributes } from 'react';
-    import {CurrencyCode, SymbolPosition} from "@woocommerce/types";
-    import {CompareOperator} from "compare-versions";
+    import type { AllHTMLAttributes, AriaAttributes } from 'react'
+    import type { CompareOperator } from 'compare-versions'
+    import type {
+        CurrencyCode,
+        SymbolPosition,
+    } from '@woocommerce/types/currency'
 
     // A list of attributes that can be added to a custom field when registering it.
     type CustomFieldAttributes = Pick<
-        AllHTMLAttributes< HTMLInputElement >,
+        AllHTMLAttributes<HTMLInputElement>,
         | 'maxLength'
         | 'readOnly'
         | 'pattern'
@@ -16,143 +19,143 @@ declare module '@woocommerce/settings' {
         | 'autoCapitalize'
         | 'autoComplete'
     > &
-        AriaAttributes;
+        AriaAttributes
 
     export interface ComboboxControlOption {
-        label: string;
-        value: string;
+        label: string
+        value: string
     }
 
     export interface FormField {
         // The label for the field.
-        label: string;
+        label: string
         // The label for the field if made optional.
-        optionalLabel: string;
+        optionalLabel: string
         // The HTML autocomplete attribute value. See https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
-        autocomplete: string;
+        autocomplete: string
         // How this field value is capitalized.
-        autocapitalize?: string;
+        autocapitalize?: string
         // Set to true if the field is required.
-        required: boolean;
+        required: boolean
         // Set to true if the field should not be rendered.
-        hidden: boolean;
+        hidden: boolean
         // Fields will be sorted and render in this order, lowest to highest.
-        index: number;
+        index: number
         // The type of input to render. Defaults to text.
-        type?: string;
+        type?: string
         // The options if this is a select field
-        options?: ComboboxControlOption[];
+        options?: ComboboxControlOption[]
         // Additional attributes added when registering a field. String in key is required for data attributes.
-        attributes?: Record< keyof CustomFieldAttributes, string >;
+        attributes?: Record<keyof CustomFieldAttributes, string>
     }
 
-    export interface LocaleSpecificFormField extends Partial< FormField > {
-        priority?: number | undefined;
+    export interface LocaleSpecificFormField extends Partial<FormField> {
+        priority?: number | undefined
     }
 
     export interface CoreAddressForm {
-        first_name: FormField;
-        last_name: FormField;
-        company: FormField;
-        address_1: FormField;
-        address_2: FormField;
-        country: FormField;
-        city: FormField;
-        state: FormField;
-        postcode: FormField;
-        phone: FormField;
+        first_name: FormField
+        last_name: FormField
+        company: FormField
+        address_1: FormField
+        address_2: FormField
+        country: FormField
+        city: FormField
+        state: FormField
+        postcode: FormField
+        phone: FormField
     }
 
     export interface CoreContactForm {
-        email: FormField;
+        email: FormField
     }
 
-    export type AddressForm = CoreAddressForm & Record< string, FormField >;
-    export type ContactForm = CoreContactForm & Record< string, FormField >;
-    export type FormFields = AddressForm & ContactForm;
-    export type AddressFormValues = Omit< ShippingAddress, 'email' >;
-    export type ContactFormValues = { email: string };
-    export type AdditionalInformationFormValues = Record< string, string >;
+    export type AddressForm = CoreAddressForm & Record<string, FormField>
+    export type ContactForm = CoreContactForm & Record<string, FormField>
+    export type FormFields = AddressForm & ContactForm
+    export type AddressFormValues = Omit<ShippingAddress, 'email'>
+    export type ContactFormValues = { email: string }
+    export type AdditionalInformationFormValues = Record<string, string>
     export type FormType =
         | 'billing'
         | 'shipping'
         | 'contact'
-        | 'additional-information';
+        | 'additional-information'
 
     export interface CoreAddress {
-        first_name: string;
-        last_name: string;
-        company: string;
-        address_1: string;
-        address_2: string;
-        country: string;
-        city: string;
-        state: string;
-        postcode: string;
-        phone: string;
+        first_name: string
+        last_name: string
+        company: string
+        address_1: string
+        address_2: string
+        country: string
+        city: string
+        state: string
+        postcode: string
+        phone: string
     }
 
     export type AdditionalValues = Record<
-        Exclude< string, keyof CoreAddress >,
+        Exclude<string, keyof CoreAddress>,
         string | boolean
-    >;
+    >
 
-    export type ShippingAddress = CoreAddress;
+    export type ShippingAddress = CoreAddress
     export interface BillingAddress extends ShippingAddress {
-        email: string;
+        email: string
     }
 
     export type KeyedFormField = FormField & {
-        key: keyof FormFields;
-        errorMessage?: string;
-    };
+        key: keyof FormFields
+        errorMessage?: string
+    }
 
-    export type CountryAddressForm = Record< string, FormFields >;
+    export type CountryAddressForm = Record<string, FormFields>
 
-    export type FormFieldsConfig = Record< keyof FormFields, Partial< FormField > >;
+    export type FormFieldsConfig = Record<keyof FormFields, Partial<FormField>>
 
     export interface WooCommerceSiteCurrency {
         // The ISO code for the currency.
-        code: CurrencyCode;
+        code: CurrencyCode
         // The precision (decimal places).
-        precision: number;
+        precision: number
         // The symbol for the currency (eg '$')
-        symbol: string;
+        symbol: string
         // The position for the symbol ('left', or 'right')
-        symbolPosition: SymbolPosition;
+        symbolPosition: SymbolPosition
         // The string used for the decimal separator.
-        decimalSeparator: string;
+        decimalSeparator: string
         // The string used for the thousands' separator.
-        thousandSeparator: string;
+        thousandSeparator: string
         // The format string use for displaying an amount in this currency.
-        priceFormat: string;
+        priceFormat: string
     }
 
     export interface WooCommerceSiteLocale {
         // The locale string for the current site.
-        siteLocale: string;
+        siteLocale: string
         // The locale string for the current user.
-        userLocale: string;
+        userLocale: string
         // An array of short weekday strings in the current user's locale.
-        weekdaysShort: string[];
+        weekdaysShort: string[]
     }
 
     export interface WooCommerceSharedSettings {
-        adminUrl: string;
-        countries: Record< string, string > | never[];
-        currency: WooCommerceSiteCurrency;
-        currentUserId: number;
-        currentUserIsAdmin: boolean;
-        homeUrl: string;
-        locale: WooCommerceSiteLocale;
-        orderStatuses: Record< string, string > | never[];
-        placeholderImgSrc: string;
-        siteTitle: string;
-        storePages: Record< string, string > | never[];
-        wcAssetUrl: string;
-        wcVersion: string;
-        wpLoginUrl: string;
-        wpVersion: string;
+        adminUrl: string
+        countries: Record<string, string> | never[]
+        currency: WooCommerceSiteCurrency
+        currentUserId: number
+        currentUserIsAdmin: boolean
+        homeUrl: string
+        locale: WooCommerceSiteLocale
+        orderStatuses: Record<string, string> | never[]
+        placeholderImgSrc: string
+        siteTitle: string
+        storePages: Record<string, string> | never[]
+        wcAssetUrl: string
+        wcVersion: string
+        wpLoginUrl: string
+        wpVersion: string
     }
 
     /**
@@ -161,7 +164,7 @@ declare module '@woocommerce/settings' {
      * @param {string} path Relative path.
      * @return {string} Full admin URL.
      */
-    export function getAdminLink( path: string ): string;
+    export function getAdminLink(path: string): string
 
     /**
      * Retrieves a setting value from the setting state.
@@ -178,8 +181,8 @@ declare module '@woocommerce/settings' {
     export function getSetting<T>(
         settingName: string,
         defaultValue?: unknown,
-        resolveValue?: (value: unknown, defaultValue: unknown) => unknown
-    ): T;
+        resolveValue?: (value: unknown, defaultValue: unknown) => unknown,
+    ): T
 
     /**
      * Compare the current WC version with the provided `version` param using the
@@ -190,8 +193,8 @@ declare module '@woocommerce/settings' {
      */
     export function isWcVersion(
         version: string,
-        operator?: CompareOperator
-    ): boolean;
+        operator?: CompareOperator,
+    ): boolean
 
     /**
      * Compare the current WP version with the provided `version` param using the
@@ -202,8 +205,6 @@ declare module '@woocommerce/settings' {
      */
     export function isWpVersion(
         version: string,
-        operator: CompareOperator
-    ): boolean;
+        operator: CompareOperator,
+    ): boolean
 }
-
-
