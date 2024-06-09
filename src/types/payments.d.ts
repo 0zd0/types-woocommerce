@@ -12,6 +12,17 @@ declare module '@woocommerce/types/payments' {
     } from '@woocommerce/types/payment-method'
     import type { ReactNode, FunctionComponentElement } from 'react'
     import type { CheckoutResponseSuccess } from '@woocommerce/types/checkout'
+    import type { EmptyObjectType } from '@woocommerce/types/objects'
+
+    export const STORE_KEY = 'wc/store/payment'
+
+    export enum STATUS {
+        IDLE = 'idle',
+        EXPRESS_STARTED = 'express_started',
+        PROCESSING = 'processing',
+        READY = 'ready',
+        ERROR = 'has_error',
+    }
 
     /**
      * The shape of objects on the `globalPaymentMethods` object from `allSettings`.
@@ -119,6 +130,32 @@ declare module '@woocommerce/types/payments' {
         savedTokenComponent?: ReactNode | null
     }
 
+    export interface PaymentMethodConfigInstance {
+        name: string
+        content: ReactNode
+        edit: ReactNode
+        paymentMethodId?: string
+        supports: Supports
+        icons: null | PaymentMethodIcons
+        label: ReactNode
+        ariaLabel: string
+        placeOrderButtonLabel?: string
+        savedTokenComponent?: ReactNode | null
+        canMakePaymentFromConfig: CanMakePaymentCallback
+        canMakePayment: CanMakePaymentCallback
+    }
+
+    export interface ExpressPaymentMethodConfigInstance {
+        name: string
+        content: ReactNode
+        edit: ReactNode
+        paymentMethodId?: string
+        placeOrderButtonLabel?: string
+        supports: Supports
+        canMakePaymentFromConfig: CanMakePaymentCallback
+        canMakePayment: CanMakePaymentCallback
+    }
+
     export type ExpressPaymentMethodConfiguration = Omit<
         PaymentMethodConfiguration,
         'icons' | 'label' | 'ariaLabel' | 'placeOrderButtonLabel'
@@ -132,4 +169,12 @@ declare module '@woocommerce/types/payments' {
         paymentDetails: Record<string, string> | Record<string, never>
         redirectUrl: string
     }
+
+    export type PaymentMethods =
+        | Record<string, PaymentMethodConfigInstance>
+        | EmptyObjectType
+
+    export type ExpressPaymentMethods =
+        | Record<string, ExpressPaymentMethodConfigInstance>
+        | EmptyObjectType
 }
